@@ -20,7 +20,7 @@
 			<c:forEach var = "boardDTO" items="${boardList }" varStatus ="i">
 			<tr align = "center">
 			<td>${i.count }</td>
-			<td><a href = "bDetail?boardId=${boardDTO.boardId }">${boardDTO.board.subject }</a></td>
+			<td><a href = "bDetail?boardId=${boardDTO.boardId }">${boardDTO.subject }</a></td>
 			<td>${boardDTO.writer }</td>
 	 		<td>${boardDTO.enrollDt }</td>
 	 		<td>${boardDTO.readCnt }</td>

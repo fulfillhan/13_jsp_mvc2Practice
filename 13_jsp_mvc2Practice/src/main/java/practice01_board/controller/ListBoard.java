@@ -20,6 +20,7 @@ public class ListBoard extends HttpServlet {
        //저장한 데이터를 가지고와서 사용자에게 보여주기
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		//ArrayList<BoardDTO> boardList = BoardDAO.getInstance().getBoardList();
 		
 		//서블릿에서 jsp페이지로 데이터를 전달하는 메서드

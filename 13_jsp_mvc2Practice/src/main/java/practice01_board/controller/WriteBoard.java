@@ -43,8 +43,8 @@ public class WriteBoard extends HttpServlet {
 		
 		String jsScript = """
 				<script>
-					alert = ("게시글이 등록되었습니다.");
-					loction.href='bList';
+					alert("게시글이 등록되었습니다.");
+					location.href='bList';
 				</script>
 				""";
 		out.print(jsScript);
