@@ -31,7 +31,7 @@
 				</tr>
 				<tr align="center">
 					<td colspan="2">
-					<input type="hidden" value="boardId" value="${boardId.boardId }">
+					<input type="hidden" name="boardId" value="${boardDTO.boardId }">
 					<input type="submit" value="수정하기" /> 
 					<input type="button" value="목로보기" onclick="location.href='bList'" />
 					</td>

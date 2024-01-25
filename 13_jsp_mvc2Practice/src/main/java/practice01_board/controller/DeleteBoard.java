@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import practice01_board.dao.BoardDAO;
-// 오류 발생 : boardId 형변환에서 오류 발생 .. 이유는?
+// 오류 발생 : boardId 형변환에서 오류 발생 .. 
+//해결 :  bDelte.jsp에서 hidden의 'name'자리에 'value'로 작성되어 있었음.
+
 @WebServlet("/bDelete")
 public class DeleteBoard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -27,7 +29,7 @@ public class DeleteBoard extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// 여기서 계속 오류..
+		
 		BoardDAO.getInstance().deleteBoard(Long.parseLong(request.getParameter("boardId")));
 	
 		String jsScript = """ 

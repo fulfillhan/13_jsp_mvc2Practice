@@ -14,6 +14,8 @@ import practice01_board.dao.BoardDAO;
 import practice01_board.dto.BoardDTO;
 
 // 오류= boardId 형변환에서 계속 오류가발생함(delete에서도 마찬가지)
+//해결 -> bUpdate.jsp에서 'hidden'의 value값이 ${boardId.boardId } 로 되어있엇음-> ${boardDTO.boardId }수정함
+
 @WebServlet("/bUpdate")
 public class UpdateBoard extends HttpServlet {
 	private static final long serialVersionUID = 1L;

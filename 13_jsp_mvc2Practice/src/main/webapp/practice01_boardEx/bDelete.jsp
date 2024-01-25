@@ -13,7 +13,7 @@
 			<span style="color: red;">삭제된 게시글은 다시는 복구 할 수 없습니다. 정말 삭제하시겠습니까?</span>
 		</p>
 		<form action="bDelete" method="post">
-			<input type = "hidden" value="boardId" value="${boardId }"/>
+			<input type = "hidden" name="boardId" value="${boardId }"/>
 			<input type="submit" value="삭제하기"> 
 			<input type="button" value="취소" onclick="location.href='bDetail?boardId=${boardId}'">
 		</form>

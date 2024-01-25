@@ -213,7 +213,6 @@ public class BoardDAO {
 					""";
 			 pstmt = conn.prepareStatement(sql);
 			
-			// 의문점:? jsp에 작성된 순서와 같이 항상 같아야 하나요?
 			pstmt.setString(1, boardDTO.getSubject());
 			pstmt.setString(2, boardDTO.getContent());
 			pstmt.setLong(3, boardDTO.getBoardId());
