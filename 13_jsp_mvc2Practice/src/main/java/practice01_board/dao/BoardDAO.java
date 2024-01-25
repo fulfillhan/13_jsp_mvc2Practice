@@ -13,6 +13,9 @@ import javax.naming.InitialContext;
 import javax.print.attribute.PrintServiceAttribute;
 import javax.sql.DataSource;
 
+import org.apache.taglibs.standard.lang.jstl.test.beans.PublicBean1;
+import org.eclipse.jdt.internal.compiler.ast.ReturnStatement;
+
 import practice01_board.dto.BoardDTO;
 
 public class BoardDAO {
@@ -80,7 +83,7 @@ public class BoardDAO {
 	}
 	
 	public ArrayList<BoardDTO> getBoardList() {
-		ArrayList<BoardDTO> boardList = new ArrayList<>();
+		ArrayList<BoardDTO> boardList = new ArrayList<BoardDTO>();
 		try {
 			getConnection();
 
@@ -145,7 +148,83 @@ public class BoardDAO {
 		//System.out.println(boardDTO);
 		return  boardDTO;
 	}
+	//패스워드 확인하기 메서드
+	public boolean checkAuthorizedUser(BoardDTO boardDTO){
+		
+		boolean isAuthorizedUser = false;
+		
+		try {
+			getConnection();
+			
+			String sql = """
+					SELECT * FROM BOARD WHERE BOARD_ID = ? AND PASSWORD = ?
+					""";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, boardDTO.getBoardId());
+			pstmt.setString(2, boardDTO.getPassword());
+			
+			 rs = pstmt.executeQuery();
+			 
+			 if(rs.next()) {
+				 isAuthorizedUser = true;
+			 }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			getClose();
+		}
+		//System.out.println(isAuthorizedUser);
+		return isAuthorizedUser;
+	}
 	
+	public void deleteBoard(long boardId) {
+			
+		try {
 
+			getConnection();
+			pstmt = conn.prepareStatement("DELETE FROM BOARD WHERE BOARD_ID = ?");
+			pstmt.setLong(1, boardId);
+			pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			getClose();
+		}
+
+	}
+	// 오류 -  반환값이 없다 이유는? 데이터베이스 업데이트만 목적으로 한다.
+	//즉 데이터베이스 수정만 하며 값을 반환할 필요가 없다는 것
+	
+//	public BoardDTO updateBoard(BoardDTO boardDTO){
+//		return boardDTO;
+//	}
+
+	public void updateBoard(BoardDTO boardDTO) {
+		try {
+			getConnection();
+
+			// DTO 형태로 가져온 데이터들을 데이터베이스에 업데이트 해야함
+			// 쿼리 준비하기
+			String sql = """
+					"UPDATE BOARD 
+					 SET SUBJECT=?,CONTENT=? 
+					 WHERE BOARD_ID=?"
+					""";
+			 pstmt = conn.prepareStatement(sql);
+			
+			// 의문점:? jsp에 작성된 순서와 같이 항상 같아야 하나요?
+			pstmt.setString(1, boardDTO.getSubject());
+			pstmt.setString(2, boardDTO.getContent());
+			pstmt.setLong(3, boardDTO.getBoardId());
+			pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			getClose();
+		}
+		
+	}
 
 }

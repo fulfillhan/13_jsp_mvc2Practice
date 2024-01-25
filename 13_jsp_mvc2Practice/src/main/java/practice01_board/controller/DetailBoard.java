@@ -19,6 +19,7 @@ public class DetailBoard extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		 long boardId =	Long.parseLong(request.getParameter("boardId"));
+		 
 		  BoardDTO boardDTO=  BoardDAO.getInstance().getBoardDetail(boardId);
 		  request.setAttribute("boardDTO", boardDTO);// BoardDTO 형태로 데이터가 왔기 때문에
 	

@@ -30,6 +30,4 @@ public class ListBoard extends HttpServlet {
 		dis.forward(request, response);
 	}
 
-	
-
 }

@@ -10,7 +10,7 @@
 	<div align="center">
 		<h3>사용자 인증</h3>
 		<form action="bAuthentication" method="post">
-			<table>
+			<table border="1">
 				<tr>
 					<td>작성자</td>
 					<td>${boardDTO.writer }</td>
@@ -29,10 +29,10 @@
 				</tr>
 			</table>
 			<p>
-			<!-- boardId도 와야하는데 이건 숨겨서 가지고오기 -->
-				<input type = "hidden" name = "boardId" value = "${boardDTO.boardId }">
-				<input type="submit" value="인증" /> 
-				<input type="button" value="목록보기" />
+			    <input type ="hidden" name = "menu"  value = "${menu }"/>
+				<input type = "hidden" name = "boardId" value = "${boardDTO.boardId }"/>
+				<input type ="submit" value="인증" /> 
+				<input type ="button" value="목록보기" />
 			</p>
 		</form>
 	</div>
