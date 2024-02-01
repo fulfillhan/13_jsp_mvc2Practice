@@ -133,5 +133,9 @@ public class MemberDAO {
 			getClose();
 		}
 		return memberDTO;  // 정보들을 'memberDTO' 에 담아서 DAO로 가지고가야한다.
+		
 	}
+	
+	
+	
 }
