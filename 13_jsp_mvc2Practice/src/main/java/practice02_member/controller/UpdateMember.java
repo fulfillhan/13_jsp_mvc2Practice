@@ -51,7 +51,7 @@ public class UpdateMember extends HttpServlet {
 				if(multi.getParameter("smsRecvAgreeYn") != null) { memberDTO.setSmsRecvAgreeYn(multi.getParameter("SmsRecvAgreeYn"));}
 				else {                                             memberDTO.setSmsRecvAgreeYn("N");}
 				memberDTO.setEmail(multi.getParameter("email"));
-				if(multi.getParameter("emailRecvAgreeYn") != null) { memberDTO.xsetEmailRecvAgreeYn(multi.getParameter("emailRecvAgreeYn"));}
+				if(multi.getParameter("emailRecvAgreeYn") != null) { memberDTO.setEmailRecvAgreeYn(profileRepositoryPath);}
 				else {                                               memberDTO.setEmailRecvAgreeYn("N");}
 				memberDTO.setZipcode(multi.getParameter("zipcode"));
 				memberDTO.setRoadAddress(multi.getParameter("roadAddress"));
