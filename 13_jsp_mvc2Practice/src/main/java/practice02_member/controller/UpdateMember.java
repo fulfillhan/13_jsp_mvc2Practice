@@ -1,6 +1,8 @@
 package practice02_member.controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.UUID;
 
@@ -43,8 +45,6 @@ public class UpdateMember extends HttpServlet {
 				MemberDTO memberDTO = new MemberDTO();
 				memberDTO.setMemberId(multi.getParameter("memberId"));
 				memberDTO.setMemberNm(multi.getParameter("memberNm"));
-				memberDTO.setProfileUUID(multi.getParameter("profileUUID"));
-				memberDTO.setProfile(multi.getParameter("profile"));
 				memberDTO.setSex(multi.getParameter("sex"));
 				memberDTO.setBirthAt(multi.getParameter("birthAt"));
 				memberDTO.setHp(multi.getParameter("hp"));
@@ -60,19 +60,45 @@ public class UpdateMember extends HttpServlet {
 				
 				Enumeration<?> files = multi.getFileNames();
 				
-				
-				if(files.hasMoreElements()) {
-					String element = (String)files.nextElement();
-					if(multi.getOriginalFileName(element) != null) {
+				if (files.hasMoreElements()) {
+					String element = (String) files.nextElement();// 파일 요소를 가지고와서 String 타입의 element변수에 저장
+					if (multi.getOriginalFileName(element) != null) {
+
+						// 식별자인 memberId를 넣어 detail정보에 있던 기존의 파일uuid를 가지고온다.
+						String deleteProfileUUID = MemberDAO.getInstance().getMemberDetail(multi.getParameter("memberId")).getProfileUUID();
+						//  파일을 삭제한다.(File 객체를 생성해야함)
+						new File(profileRepositoryPath + deleteProfileUUID).delete();
 						
-						String originalFileName = multi.getOriginalFileName(element);
+						String originalFileName = multi.getOriginalFileName(element);// 새로 수정하여 업로드하는 원본파일명을 가지고와서 변수에 할당한다.
 						String profileUUID = UUID.randomUUID()+ originalFileName.substring(originalFileName.lastIndexOf("."));
+
+						// 새롭게 업로드한 파일과 UUID를 dto형태로 보낸다.
+						memberDTO.setProfile(originalFileName);
+						memberDTO.setProfileUUID(profileUUID);
+
+						// 새로운 업로드된 파일을 file객체에 생성
+						File file = new File(profileRepositoryPath + originalFileName);
+						// 새로운 uuid에 해당하는 파일도 File객체에 생성
+						File renameFile = new File(profileRepositoryPath + profileUUID);
+						// 마지막으로 업로드된 새로운 파일을 uuid가 있는 새로운 파일 이름을 변경한다.
+						file.renameTo(renameFile);
 						
 					}
 					
-					
 				}
+				
+		        MemberDAO.getInstance().updateMember(memberDTO);
 		        
+
+			    String jsScript = """
+						<script>
+							alert('수정 되었습니다.');
+						  location.href='detailMember';
+					    </script>""";	   
+					   
+				response.setContentType("text/html; charset=utf-8");
+				PrintWriter out = response.getWriter();	
+				out.print(jsScript);
 		
 	}
 

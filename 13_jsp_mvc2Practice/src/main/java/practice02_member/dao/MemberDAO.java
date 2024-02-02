@@ -71,7 +71,7 @@ public class MemberDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
-			
+			getClose();
 		}
 		
 	}
@@ -135,6 +135,103 @@ public class MemberDAO {
 		return memberDTO;  // 정보들을 'memberDTO' 에 담아서 DAO로 가지고가야한다.
 		
 	}
+
+	public void updateMember(MemberDTO memberDTO) {
+		
+		try {
+			getConnection();
+			String sql = """
+					UPDATE MEMBR
+            		SET	   MEMBER_NM = ?,
+            			   SEX = ?,
+            		       BIRTH_AT = ?,
+            		       HP = ?,
+            		       SMS_RECV_AGREE_YN = ?,
+            		       EMAIL = ?,
+            		       EMAIL_RECV_AGREE_YN = ?,
+            		       ZIPCODE = ?,
+            		       ROAD_ADDRESS = ?,
+            		       JIBUN_ADDRESS = ?,
+            		       NAMUJI_ADDRESS = ?
+						""";
+          if(memberDTO.getProfile() != null) { // NULL 일 경우에도 SQL쿼리에 프로필 열이 추가되어 불필요한 값이 생성될 수 있다.
+        	  sql += """
+        	  		,
+        	  		PROFILE=?,
+        	  		PROFILE_UUID=?
+        	  		""";
+          }
+          sql += "WHERE MEMBER_ID=?;";
+          
+			pstmt =conn.prepareStatement(sql);
+			pstmt.setString(1, memberDTO.getMemberNm());
+			pstmt.setString(2, memberDTO.getSex());
+			pstmt.setString(3, memberDTO.getBirthAt());
+			pstmt.setString(4, memberDTO.getHp());
+            pstmt.setString(5, memberDTO.getSmsRecvAgreeYn());
+			pstmt.setString(6, memberDTO.getEmail());
+			pstmt.setString(7, memberDTO.getEmailRecvAgreeYn());
+            pstmt.setString(8, memberDTO.getZipcode());
+            pstmt.setString(9, memberDTO.getRoadAddress());
+            pstmt.setString(10, memberDTO.getJibunAddress());
+            pstmt.setString(11, memberDTO.getNamujiAddress());
+            if(memberDTO.getProfile() == null) { // null이면 아이디값을 쿼리에 저장한다.
+            	pstmt.setString(12, memberDTO.getMemberId());
+            }else {
+				pstmt.setString(12, memberDTO.getProfile());
+				pstmt.setString(13, memberDTO.getProfileUUID());
+				pstmt.setString(14, memberDTO.getMemberId());
+			}
+            pstmt.executeUpdate();
+            
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			getClose();
+		}
+	}
+
+	public void deleteMember(String memberId) {
+		
+		try {
+			getConnection();
+			
+			String sql = "DELETE FROM MEMBER WHERE MEMBER_ID=?";
+			 pstmt = conn.prepareStatement(sql);
+			 pstmt.setString(1, memberId);
+			 pstmt.executeUpdate();
+			 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			
+			getClose();
+		}
+	}
+
+	public boolean checkDuplicateId(String memberId) {
+		
+		boolean isDuple = false;
+		
+		try {
+			getConnection();
+			pstmt = conn.prepareStatement("SELECT * FROM MEMBER WHERE MEMBER_ID=?");
+			pstmt.setString(1, memberId);
+			 rs = pstmt.executeQuery();
+			 
+			 if(rs.next()) {
+				 isDuple=true;
+			 }
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			getClose();
+		}
+		return isDuple;
+	}
+
+	
 	
 	
 	

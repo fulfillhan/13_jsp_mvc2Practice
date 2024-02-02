@@ -39,7 +39,7 @@ public class RegisterMember extends HttpServlet {
 		MultipartRequest multi = new MultipartRequest(request,profileRepositoryPath, 1024 * 1024 * 30 , "utf-8" );
 		
 		MemberDTO memberDTO = new MemberDTO();
-		memberDTO.setMemberId( multi.getParameter("memberId")); 
+		memberDTO.setMemberId(multi.getParameter("memberId")); 
 		memberDTO.setPasswd(multi.getParameter("password"));
 		memberDTO.setMemberNm(multi.getParameter("memberNm"));
 		memberDTO.setSex(multi.getParameter("sex"));
