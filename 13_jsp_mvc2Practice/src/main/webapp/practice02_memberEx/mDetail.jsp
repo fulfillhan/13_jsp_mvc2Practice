@@ -18,7 +18,7 @@
 		<table border="1">
 			<tr>
 				<td>프로필 이미지</td>
-				<td><img src="step02_memberEx/profileRepository/${memberDTO.profileUUID}" width="200" height="100"></td>
+				<td><img src="practice02_memberEx/profileRepository/${memberDTO.profileUUID}" width="200" height="100"></td>
 			</tr>
 			<tr>
 				<td>아이디</td>
@@ -32,11 +32,11 @@
 				<td>성별</td>
 				<td>
 					<c:choose>
-						<c:when test="${memberDTO.sex == 'm'}">
-							남
+						<c:when test="${memberDTO.sex == 'm' }">
+						남
 						</c:when>
 						<c:otherwise>
-							여
+						여
 						</c:otherwise>
 					</c:choose>
 				</td>
@@ -47,27 +47,20 @@
 			</tr>
 			<tr>
 				<td>연락처</td>
-				<td>${memberDTO.hp } 
-					<c:choose>
-						<c:when test="${memberDTO.smsRecvAgreeYn == 'Y'}">
-							(문자 수신동의)
-						</c:when>
-						<c:otherwise>
-							(문자 수신 비동의)
-						</c:otherwise>
-					</c:choose>
+				<td>
+					${memberDTO.hp }
+					<c:coose>
+						<c:when test=${memberDTO.smsRecvAgreeYn == 'Y' }>(문자 수신동의)</c:when>
+						<c:otherwise}>(문자 수신비동의)</c:otherwise>
+					</c:coose>
 				</td>
 			</tr>
 			<tr>
 				<td>이메일</td>
-				<td>${memberDTO.email } 
+				<td>${memberDTO.email }
 					<c:choose>
-						<c:when test="${memberDTO.emailRecvAgreeYn == 'Y'}">
-							(메일 수신동의)
-						</c:when>
-						<c:otherwise>
-							(메일 수신 비동의)
-						</c:otherwise>
+						<c:when test=${memberDTO.emailRecvAgreeYn == 'Y' }>(이메일 수신 동의)</c:when>
+						<c:otherwise>(이메일 수신 비동의)</c:otherwise>
 					</c:choose>
 				</td>
 			</tr>

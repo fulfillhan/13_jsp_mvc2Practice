@@ -20,9 +20,8 @@ public class LoginMember extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
  
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		RequestDispatcher dis = request.getRequestDispatcher("practice02_memberEx/bLogin.jsp");
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher dis = request.getRequestDispatcher("practice02_memberEx/mLogin.jsp");
 		dis.forward(request, response);
 	}
 
@@ -38,7 +37,7 @@ public class LoginMember extends HttpServlet {
 		String isAuthorized = "false";
 		if (isLogin) {
 			HttpSession session = request.getSession();
-			session.setAttribute("memberId", memberDTO.getMemberId());
+			session.setAttribute("memberId", request.getParameter("memberId"));
 			isAuthorized = "true";
 
 		}

@@ -27,7 +27,7 @@ public class DetailMember extends HttpServlet {
 		 String memberId = (String)session.getAttribute("memeberId");
 		 MemberDTO memberDTO = MemberDAO.getInstance().getMemberDetail(memberId);//세션에서 가져온 'memberId' 속성을 매개변수로 넣어준다
 		 request.setAttribute("memberDTO", memberDTO);
-		 
+		
 		 RequestDispatcher dis = request.getRequestDispatcher("practice02_memberEx/mDetail.jsp");
 		 dis.forward(request, response);
 	

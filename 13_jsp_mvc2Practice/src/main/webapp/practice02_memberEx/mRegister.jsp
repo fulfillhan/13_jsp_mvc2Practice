@@ -38,68 +38,54 @@
 </script>
 <script>
 	
+	var isvalidId = false;
+	var isvalidConfirmPasswd = false;
 	
-	var isValidId = false;
-	var isValidConfirmPasswd = false;
-	
-	function checkFormData() {
+	function checkFormData(){
 		
-		if (!isValidConfirmPasswd) {
-			alert("패스워드를 확인하세요.");
+		if(!isvalidId){
+			alert("아이디 중복체크를 확인하세요.");
+			$("#memberId").focus();  
+			return false;
+		}
+		
+		if(!isvalidConfirmPasswd){
+			alert("패스워드를 확인하세요");
 			$("#confirmPasswd").focus();
 			return false;
 		}
-		
-		if (!isValidId) {
-			alert("아이디 중복체크를 확인하세요.");
-			$("#memberId").focus();
-			return false;
-		}
-		
-	}	
+	});
 	
-	$().ready(function(){
-		
-		$("#confirmPasswd").blur(function(){
-			
-			if ($("#passwd").val() == $("#confirmPasswd").val()){
-				$("#msg").html("<span style='color:green;'>패스워드 일치</span>");
-				isValidConfirmPasswd = true;
-			}
-			else {
-				$("#msg").html("<span style='color:red;'>패스워드 불일치</span>");
-				isValidConfirmPasswd = false;
-			}
-			
-			
-		});
+		$().ready(function(){
+			$("#confirmPasswd").blur(function(){){
+				if($("#psswd").val() == $("confirmPasswd").val()){
+					$("#msg").html("<span style='color:green;'>패스워드 일치</span>");
+					isvalidId=true;
+				}
+				else{
+					$("#msg").html("<span style='color:red;'>패스워드 불일치</span>");
+					isvalidConfirmData=false;
+				}
+			});
 		
 		$("#btnOverlapped").click(function(){
 			
 			$.ajax({
-				
-				url : "checkDuplicateId",
+				url : "CkeckDuplicateId",
 				type : "get",
-				data : {"memberId" : $("#memberId").val()},
-				success : function(result) {
-					
-					if (result == "isDuple") {
-						$("#overlappedIdMsg").html("<span style='color:red;'>사용할 수 없는 아이디 입니다.</span>")
-						isValidId = false;
-					}
-					else {
-						$("#overlappedIdMsg").html("<span style='color:green;'>사용할 수 있는 아이디 입니다.</span>")
-						isValidId = true;
-					}
-					
+				data : {"memberId",$("#memberId").val()},
+				success : function(result){
+					if(result == "isDuple")
+					$("#overlappedIdMsg").html("<span style='color:red'>사용할 수 없는 아이디입니다.</span>");
 				}
-				
-			});
-			
+				else if (result == "isNotDuple" ) {
+					$("#overlappedIdMsg").html("<span style='color:green'>사용 가능한 아이디입니다.</span>");
+				}
+			}
 		});
-		
-		
 	});
+});
+		
 
 </script>
 </head>

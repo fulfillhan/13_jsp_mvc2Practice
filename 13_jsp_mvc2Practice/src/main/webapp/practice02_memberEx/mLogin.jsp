@@ -7,33 +7,6 @@
 <script src="jquery/jquery-3.6.1.min.js"></script>
 <script>
 	
-	$(function(){
-		
-		$("#loginBtn").click(function(){
-			
-			let param = {
-				"memberId" : $('[name="memberId"]').val(),
-				"passwd" : $('[name="passwd"]').val()
-			}
-			
-			$.ajax({
-				url : "loginMember",
-				type : "post",
-				data : param ,
-				success : function(isAuthorized) {
-					
-					if (isAuthorized == "true") {
-						location.href = "detailMember";
-					}
-					else {
-						$("#resultMsg").html("<span style='color:red;'>아이디와 패스워드를 확인하세요.</span>");
-					}
-					
-				}
-			});
-			
-		});
-	});
 
 </script>
 </head>

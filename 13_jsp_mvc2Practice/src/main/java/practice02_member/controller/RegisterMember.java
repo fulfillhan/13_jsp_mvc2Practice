@@ -40,7 +40,7 @@ public class RegisterMember extends HttpServlet {
 		
 		MemberDTO memberDTO = new MemberDTO();
 		memberDTO.setMemberId(multi.getParameter("memberId")); 
-		memberDTO.setPasswd(multi.getParameter("password"));
+		memberDTO.setPasswd(multi.getParameter("passwd"));
 		memberDTO.setMemberNm(multi.getParameter("memberNm"));
 		memberDTO.setSex(multi.getParameter("sex"));
 		memberDTO.setBirthAt(multi.getParameter("birthAt"));
@@ -78,6 +78,7 @@ public class RegisterMember extends HttpServlet {
 		}
 		
 		MemberDAO.getInstance().registerMember(memberDTO);
+		
 		
 		String jsScript = """
 				<script>

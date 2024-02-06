@@ -6,9 +6,13 @@ import java.sql.ResultSet;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.security.auth.Subject;
 import javax.sql.DataSource;
 
+import org.apache.jasper.tagplugins.jstl.core.If;
+
 import practice02_member.dto.MemberDTO;
+import practice03_boardAdvanced.dto.MainBoardDTO;
 
 public class MemberDAO {
 	
@@ -46,11 +50,10 @@ public class MemberDAO {
 		try {
 			getConnection();
 			
-			String sql = """
-					INSERT INTO MEMBER VALUES(? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , NOW()));
-				
-					""";
-			pstmt = conn.prepareStatement(sql);
+//			String sql = """
+//					INSERT INTO MEMBER VALUES(? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , NOW())");
+//					""";
+			pstmt = conn.prepareStatement("INSERT INTO MEMBER VALUES(? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , NOW())");
 			pstmt.setString(1, memberDTO.getMemberId());
 			pstmt.setString(2, memberDTO.getMemberNm());
 			pstmt.setString(3, memberDTO.getPasswd());
@@ -67,12 +70,12 @@ public class MemberDAO {
 			pstmt.setString(14, memberDTO.getJibunAddress());
 			pstmt.setString(15, memberDTO.getNamujiAddress());
 			pstmt.executeUpdate();
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
 			getClose();
 		}
+		//System.out.println(memberDTO);
 		
 	}
 
@@ -106,7 +109,7 @@ public class MemberDAO {
 		try {
 			getConnection();
 			
-			pstmt = conn.prepareStatement("SELECT * FROM MEMBER WHERE MEMBER_ID");
+			pstmt = conn.prepareStatement("SELECT * FROM MEMBER WHERE MEMBER_ID = ?");
 			pstmt.setString(1, memberId);
 			 rs = pstmt.executeQuery();
 			 
@@ -132,8 +135,9 @@ public class MemberDAO {
 		}finally {
 			getClose();
 		}
+		//System.out.println(memberDTO);
 		return memberDTO;  // 정보들을 'memberDTO' 에 담아서 DAO로 가지고가야한다.
-		
+		 
 	}
 
 	public void updateMember(MemberDTO memberDTO) {
@@ -229,6 +233,84 @@ public class MemberDAO {
 			getClose();
 		}
 		return isDuple;
+	}
+
+	public void insertBoard(MainBoardDTO mainBoardDTO) {
+		try {
+			getConnection();
+			
+			String sql = """
+					INSERT INTO MAIN_BOARD (WRITER, SUBJECT, CONTENT, PASSWD)
+					VALUES (?,?,?,?);
+					""";
+			 pstmt = conn.prepareStatement(sql);
+			 pstmt.setString(1, mainBoardDTO.getWriter());
+			 pstmt.setString(2, mainBoardDTO.getSubject());
+			 pstmt.setString(3, mainBoardDTO.getContent());
+			 pstmt.setString(4, mainBoardDTO.getPasswd());
+			 pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			getClose();
+		}
+		
+	}
+
+	public int getAllVBoardCnt(String searchKeyword, String searchWord) {
+		int allBoardCnt = 0;
+		
+		try {
+			getConnection();
+			String sql = "";
+			
+			//검색키워드가 기본값(전체검색)일 때
+			if(searchKeyword.equals("total")) {
+				if(searchWord.equals("")) {
+					// 검색어의 입력값이 없을때-> 전체 데이터를 조회한다.
+					sql = """
+							SELECT COUNT(*)
+							FROM MAIN_BOARD
+							""";
+					 pstmt = conn.prepareStatement(sql);
+				}
+				else {
+					//검색어의 입력값이 있을때->검색어의 입력값의 전체를 조회한다.
+					sql = """
+							SELECT COUNT(*)
+							FROM MAIN_BOARD
+							WHERE SUBJECT LIKE CONCAT('%', ? , '%')
+							OR CONTENT LIKE CONCAT('%' , ? , '%')
+							""";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, searchWord);
+					pstmt.setString(2, searchWord);
+				}
+					
+			}
+			else {
+				//검색키워드를 입력값이 있다면
+				sql= "SELECT COUNT(*)"+
+					"FROM MAIN_BOARD"+
+					"WHERE "+ searchKeyword+"LIKE CONCAT('%' , ? , '%')";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, searchWord);
+				
+			}
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				allBoardCnt= rs.getInt(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			getClose();
+		}
+		
+		return allBoardCnt;
 	}
 
 	
