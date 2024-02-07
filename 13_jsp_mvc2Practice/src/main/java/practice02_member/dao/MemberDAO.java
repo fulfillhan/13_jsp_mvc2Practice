@@ -3,6 +3,7 @@ package practice02_member.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -311,6 +312,24 @@ public class MemberDAO {
 		}
 		
 		return allBoardCnt;
+	}
+
+	public ArrayList<MainBoardDTO> getBoardList(String searchKeyword, String searchWord, int startBoardIdx, int onePageViewCnt) {
+	
+		ArrayList<MainBoardDTO> boardList= new ArrayList<>();
+		
+		try {
+			getConnection();
+			
+			//-> 여기서부터 업데이트 필요
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			getClose();
+		}
+		
+		
+		return boardList;
 	}
 
 	

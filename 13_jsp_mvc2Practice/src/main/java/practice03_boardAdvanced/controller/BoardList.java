@@ -63,12 +63,12 @@ public class BoardList extends HttpServlet {
 			endPage = allBoardCnt;
 		}
 		
-		// 현재 보여질 페이지의 시작 번호를 설정한다.
+		// 현재 보여질 게시글의의 시작 인덱스를 설정한다.
 		
-		int startPageIdx = (currentPageNumber-1) * onePageViewCnt;
+		int startBoardIdx = (currentPageNumber-1) * onePageViewCnt;
 		
 		//list를 배열화한다
-		ArrayList<MainBoardDTO> mainBoardList = new ArrayList<>();
+		MemberDAO.getInstance().getBoardList(searchKeyword,searchWord,startBoardIdx,onePageViewCnt);
 		
 		 
 	
