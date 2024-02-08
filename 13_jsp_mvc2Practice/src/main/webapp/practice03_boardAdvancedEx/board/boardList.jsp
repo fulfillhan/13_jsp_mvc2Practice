@@ -62,24 +62,13 @@
 				<th>작성일</th>
 				<th>조회수</th>
 			</tr>
-			<c:forEach var="mainBoardDTO" items="${boardList }">
-				<tr align="center">
-					<c:set var="startBoardIdx" value="${startBoardIdx = startBoardIdx + 1}"/>
-					<td>${startBoardIdx }</td>
-					<td align="left">
-						<a href="boardDetail?boardId=${mainBoardDTO.boardId }">
-							${mainBoardDTO.subject }
-							<c:if test="${mainBoardDTO.enrollAt == today }">
-								<img src="img/new.PNG" width="20" height="10">
-							</c:if>
-						</a>
-					</td>
-					<td>${mainBoardDTO.writer }</td>
-					<td>${mainBoardDTO.enrollAt }</td>
-					<td>${mainBoardDTO.readCnt }</td>
-				</tr>
+			<c:forEach var="mainBoardDTO" items="${boardList }" }>
+			<tr align = "center">
+			<!-- 여기서부터 -->
+			
+			</tr>
 			</c:forEach>
-			<tr align="right">
+				<tr align="right">
 				<td colspan="5">
 					<input type="button" value="글쓰기" onclick="location.href='boardWrite'">
 				</td>
@@ -98,21 +87,7 @@
 		</table>
 		<div style="display: table; margin-left: auto; margin-right: auto">
 			<ul>
-				<c:if test="${startPage > 10}">
-					<li>
-						<a href="javascript:getBoardList(${startPage - 10})">이전 </a>
-					</li> 
-				</c:if>
-				<c:forEach var="i" begin="${startPage }" end="${endPage }">
-					<li>
-						<a href="javascript:getBoardList(${i})">${i } &nbsp;</a>
-					</li>
-				</c:forEach>
-				<c:if test="${endPage != allPageCnt && endPage >= 10}">
-					<li>
-						<a href="javascript:getBoardList(${startPage + 10})"> 다음 </a>
-					</li> 
-				</c:if>
+			
 			</ul>
 		</div>
 	</div>
