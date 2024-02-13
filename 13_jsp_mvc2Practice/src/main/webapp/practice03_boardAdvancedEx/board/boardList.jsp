@@ -21,8 +21,24 @@
 </style>
 <script src="jquery/jquery-3.6.1.min.js"></script>
 <script>
-
+ $().ready(function(){
+	 // HTML이 로드되면 이 함수 내의 코드가 실행됩니다.
+ 	$("#onePageViewCnt").val("${onePageViewCnt}");// id=onePageViewCnt 의 요소값을 서버측에서 전달된 값으로 받는다.
+ 	$("#searchKeyword").val("${searchKeyword}");
+ 
+ });
+	function(currentPageNumber){
+		var url = "boardList?searchKeyword=" +  $("#searchKeyword").val();
+		   url += "&searchWord=" + $("#searchWord").val() 
+		   url += "&onePageViewCnt=" + $("#onePageViewCnt").val();
+		
+		   if (currentPageNumber != undefined) {
+			   url += "&currentPageNumber=" +currentPageNumber;
+		   }
+		   
+		location.href = url;
 	
+	}
 	
 </script>
 </head>
@@ -64,8 +80,18 @@
 			</tr>
 			<c:forEach var="mainBoardDTO" items="${boardList }" }>
 			<tr align = "center">
-			<!-- 여기서부터 -->
-			
+			<c:set var="startBoardIdx" value="${startBoardIdx =  startBoardIdx+1}"/>
+			<td>${startBoardIdx}</td>
+			<td align="left">
+				<a href="boardDetal?boardId=${mainBoardDTO.boardId }">${mainBoardDTO.subject}
+				<c:if test="${mainBoardDTO.enrollAt == today}">
+					<img src="img/new.PNG" width="20" height="10">
+					</c:if>
+				</a>
+			</td>
+			<td>${mainBoardDTO.writer}</td>
+			<td>${mainBoardDTO.enrollAt}</td>
+			<td>${mainBoardDTO.readCnt}</td>
 			</tr>
 			</c:forEach>
 				<tr align="right">
@@ -87,7 +113,21 @@
 		</table>
 		<div style="display: table; margin-left: auto; margin-right: auto">
 			<ul>
-			
+				<c:if test="${startPage > 10}">
+					<li>
+						<a href="javascript:getBoardList(${startPage - 10})">이전 </a>
+					</li> 
+				</c:if>
+				<c:forEach var="i" begin="${startPage }" end="${endPage }">
+					<li>
+						<a href="javascript:getBoardList(${i})">${i } &nbsp;</a>
+					</li>
+				</c:forEach>
+				<c:if test="${endPage != allPageCnt && endPage >= 10}">
+					<li>
+						<a href="javascript:getBoardList(${startPage + 10})"> 다음 </a>
+					</li> 
+				</c:if>
 			</ul>
 		</div>
 	</div>

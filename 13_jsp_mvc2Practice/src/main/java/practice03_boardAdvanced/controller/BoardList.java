@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.jasper.compiler.NewlineReductionServletWriter;
 
 import practice02_member.dao.MemberDAO;
 import practice02_member.dto.MemberDTO;
@@ -68,9 +69,22 @@ public class BoardList extends HttpServlet {
 		 }
 		 int startBoardIdx = (currentPageNumber-1)*onePageViewCnt;
 		 
-		  ArrayList<MainBoardDTO> boardList = BoardAdvancedDAO.getInstance().getBoardList(searchKeyword,searchWord,startBoardIdx, onePageViewCnt);
-		  request.setAttribute("boardList", boardList);
-		  //->여기서부터
+			ArrayList<MainBoardDTO> boardList = BoardAdvancedDAO.getInstance().getBoardList(searchKeyword, searchWord,
+					startBoardIdx, onePageViewCnt);
+			request.setAttribute("boardList", boardList);
+			request.setAttribute("onePageViewCnt", onePageViewCnt);
+			request.setAttribute("allBoardCnt", allBoardCnt);
+			request.setAttribute("startBoardIdx", startBoardIdx);
+			request.setAttribute("currentPageNumber", currentPageNumber);
+			request.setAttribute("startPage", startPage);
+			request.setAttribute("endPage", endPage);
+			request.setAttribute("allPageCnt", allPageCount);
+			request.setAttribute("searchKeyword", searchKeyword);
+			request.setAttribute("searchWord", searchWord);
+			
+			SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
+			request.setAttribute("todday", sdf.format(new Date() ));
+			
 		
 		RequestDispatcher dis = request.getRequestDispatcher("practice03_boardAdvancedEx/board/boardList.jsp");
 		dis.forward(request, response);
